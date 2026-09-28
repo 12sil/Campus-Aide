@@ -26,7 +26,7 @@ def render(store):
         sum(o["level"] == "urgent" for o in orders),
         sum(o["level"] == "normal" for o in orders),
     ]}, index=["急", "缓冲", "不急"])
-    st.bar_chart(chart, y="任务分配数量", color="#3158dd", height=260)
+    st.bar_chart(chart, y="任务分配数量", color="#66c7e8", height=260)
     # 与数字看板使用相同口径；无未启动任务分配时不绘制误导性的空圆环。
     ring_col, trend_col = st.columns(2)
     with ring_col:
@@ -34,7 +34,7 @@ def render(store):
         if chart["任务分配数量"].sum():
             fig = px.pie(chart.reset_index(names="状态"), names="状态", values="任务分配数量",
                          hole=.65, color="状态", color_discrete_map={
-                             "急": "#e45756", "缓冲": "#eebd36", "不急": "#35a778"})
+                             "急": "#f39a8f", "缓冲": "#f4c879", "不急": "#83d6a8"})
             fig.update_traces(textinfo="label+percent", hovertemplate="%{label}：%{value} 笔<extra></extra>")
             fig.update_layout(height=320, margin=dict(l=15, r=15, t=20, b=20),
                               paper_bgcolor="rgba(0,0,0,0)", showlegend=False)
@@ -51,7 +51,7 @@ def render(store):
             months_all = pd.period_range(counts.index.min(), counts.index.max(), freq="M").astype(str)
             trend = counts.reindex(months_all, fill_value=0).rename_axis("月份").reset_index(name="任务分配笔数")
             fig = px.line(trend, x="月份", y="任务分配笔数", markers=True,
-                          color_discrete_sequence=["#3158dd"])
+                          color_discrete_sequence=["#a99bea"])
             fig.update_xaxes(type="category")
             fig.update_yaxes(rangemode="tozero", dtick=1)
             fig.update_layout(height=320, margin=dict(l=15, r=15, t=20, b=20),
@@ -108,3 +108,4 @@ def render(store):
         else:
             st.info("该月还没有实际启动记录。")
         st.caption("以实际启动日期统计，已取消任务分配排除；不同计量单位分开汇总。")
+

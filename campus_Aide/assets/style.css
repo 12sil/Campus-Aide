@@ -1,26 +1,25 @@
-/* 统一视觉：冷白工作台、深蓝文字和靛蓝重点，保留 Streamlit 原生交互。 */
-.brand-banner {padding: 1.2rem 1.5rem; margin-bottom: 1.8rem; border-radius: 16px; background: linear-gradient(115deg, #16345b, #3158a0); color: white; font-size: clamp(1.1rem, 2vw, 1.5rem); font-weight: 700; box-shadow: 0 6px 20px rgba(29,55,92,.12);}
-/* 隐藏右上角工具菜单和页脚；保留页头，确保手机端仍能打开侧边栏。 */
-#MainMenu, [data-testid="stToolbar"], [data-testid="stHeader"], footer {display: none !important;}
-.stApp {background: #f6f8fb; font-family: "Microsoft YaHei", "微软雅黑", Arial, sans-serif;}
-.stApp, .stApp p, .stApp label, .stApp button, .stApp input, .stApp textarea {font-family: "Microsoft YaHei", "微软雅黑", Arial, sans-serif;}
-.block-container {padding-top: 4rem; padding-bottom: 3rem; max-width: 1450px;}
-h1 {font-size: 2rem !important; letter-spacing: -.04em; color: #142746;}
-h2 {font-size: 1.45rem !important;}
-h3 {font-size: 1.12rem !important;}
-.kicker {font-size: .75rem; letter-spacing: .18em; font-weight: 650; color: #617798; margin: .4rem 0 .3rem;}
-.flow {padding: 1.1rem 1.4rem; border: 1px solid #dce5ff; background: #eef3ff; color: #3158dd; border-radius: 12px; margin-bottom: 1.5rem; font-weight: 600;}
-[data-testid="stSidebar"] {background: white; border-right: 1px solid #e5eaf4;}
-[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] h1 {font-size: 1.6rem !important;}
-[data-testid="stMetric"] {background: white; padding: 1.1rem 1.2rem; border-radius: 12px; border: 1px solid #e1e7f2; min-height: 122px;}
-[data-testid="stMetric"], [data-testid="stDataFrame"] {box-shadow: 0 5px 18px rgba(29, 55, 92, .07);}
-[data-testid="stMetricValue"] {font-weight: 650; color: #213b65;}
-[data-testid="stMetricLabel"] {font-size: .86rem; color: #617798;}
-[data-testid="stForm"] {background: white; border-color: #e1e7f2; border-radius: 12px; padding: 1.4rem;}
-[data-testid="stExpander"] {background: white; border: 1px solid #e1e7f2; border-radius: 10px;}
-[data-testid="stDataFrame"] {border-radius: 10px; overflow: hidden;}
-.core-formula {margin-top: .9rem; padding: .75rem .9rem; border-radius: 10px; background: #eef3ff; color: #1c3767; font-size: .92rem; font-weight: 700; line-height: 1.6;}
-.product-placeholder {min-height: 180px; background: #edf2fa; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 3rem;}
-.product-placeholder p {font-size: .9rem; color: #70829e;}
-[data-testid="stButton"] button {border-radius: 8px;}
-@media(max-width: 700px) {.block-container {padding-left: 1rem; padding-right: 1rem;} h1 {font-size: 1.55rem !important;} .flow {font-size: .84rem; line-height: 2;}}
+/* 校园智汇：晴朗、轻盈、圆润的校园工作台视觉。 */
+:root { --sky:#63c7f2; --mint:#7edfc4; --lavender:#b9a7f5; --ink:#3f4a5a; --muted:#7d8998; --line:#e9eef4; --cloud:rgba(73,98,126,.09); }
+.brand-banner { padding:1.25rem 1.55rem; margin-bottom:1.8rem; border-radius:20px; background:linear-gradient(120deg,#71cdf3 0%,#9edfcf 52%,#c2b5f6 100%); color:#fff; font-size:clamp(1.1rem,2vw,1.5rem); font-weight:750; letter-spacing:.02em; box-shadow:0 14px 34px rgba(93,173,208,.18); }
+#MainMenu,[data-testid="stToolbar"],[data-testid="stHeader"],footer { display:none !important; }
+.stApp { background:#fffdfa; color:var(--ink); font-family:"Microsoft YaHei","微软雅黑",Arial,sans-serif; }
+.stApp,.stApp p,.stApp label,.stApp button,.stApp input,.stApp textarea { font-family:"Microsoft YaHei","微软雅黑",Arial,sans-serif; }
+.block-container { padding-top:4rem; padding-bottom:3rem; max-width:1450px; }
+h1 { font-size:2rem !important; letter-spacing:-.04em; color:#384556; } h2 { font-size:1.45rem !important; color:#435267; } h3 { font-size:1.12rem !important; color:#536276; }
+.kicker { font-size:.75rem; letter-spacing:.18em; font-weight:700; color:#52a9cd; margin:.4rem 0 .3rem; }
+.flow { padding:1.1rem 1.4rem; border:1px solid #d7f0f3; background:#effbfa; color:#3298b3; border-radius:16px; margin-bottom:1.5rem; font-weight:650; }
+[data-testid="stSidebar"] { background:#f8fcff; border-right:1px solid #e9f1f5; }
+[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] h1 { font-size:1.6rem !important; color:#4a596a; }
+[data-testid="stSidebar"] .stButton button { background:#e8f8f4; color:#278c7b; border-color:#cceee5; }
+[data-testid="stMetric"] { background:#fff; padding:1.1rem 1.2rem; border-radius:18px; border:1px solid var(--line); min-height:122px; }
+[data-testid="stMetric"],[data-testid="stDataFrame"] { box-shadow:0 12px 34px var(--cloud); }
+[data-testid="stMetricValue"] { font-weight:700; color:#4c7891; } [data-testid="stMetricLabel"] { font-size:.86rem; color:var(--muted); }
+[data-testid="stForm"] { background:#fff; border-color:var(--line); border-radius:18px; padding:1.4rem; box-shadow:0 12px 34px var(--cloud); }
+[data-testid="stExpander"] { background:#fff; border:1px solid var(--line); border-radius:16px; box-shadow:0 8px 26px rgba(73,98,126,.05); }
+[data-testid="stDataFrame"] { border-radius:15px; overflow:hidden; }
+.core-formula { margin-top:.9rem; padding:.8rem .95rem; border-radius:15px; background:#f0edff; color:#6e5eb4; font-size:.92rem; font-weight:700; line-height:1.6; }
+.product-placeholder { min-height:180px; background:#f0fbfa; border-radius:18px; display:flex; flex-direction:column; align-items:center; justify-content:center; font-size:3rem; } .product-placeholder p { font-size:.9rem; color:#91a0ae; }
+[data-testid="stButton"] button,[data-testid="stFormSubmitButton"] button,.stDownloadButton button { border-radius:999px !important; border:1px solid #b9e4f2; min-height:2.55rem; padding:.35rem 1.15rem; background:#eefaff; color:#318eaf; font-weight:650; transition:transform .15s ease,box-shadow .15s ease; }
+[data-testid="stButton"] button:hover,[data-testid="stFormSubmitButton"] button:hover,.stDownloadButton button:hover { transform:translateY(-1px); box-shadow:0 8px 18px rgba(81,176,211,.2); }
+[data-testid="stFormSubmitButton"] button[kind="primary"],[data-testid="stButton"] button[kind="primary"] { background:linear-gradient(100deg,#54bce9,#6fd9be); color:#fff; border:0; }
+@media(max-width:700px) { .block-container { padding-left:1rem; padding-right:1rem; } h1 { font-size:1.55rem !important; } .flow { font-size:.84rem; line-height:2; } }

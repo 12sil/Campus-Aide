@@ -28,7 +28,7 @@ def order_table(orders, empty="暂无任务分配记录。"):
     def paint(row):
         colors = {TODAY: "#ffe9ee", URGENT: "#fff9e3", OVERDUE: "#ffe9ee", NORMAL: "#e8f7ee"}
         color = colors.get(row["预警状态"], "")
-        return [f"background-color: {color}; color: #18253f" if color else "" for _ in row]
+        return [f"background-color: {color}; color: #495667" if color else "" for _ in row]
     st.dataframe(frame.style.apply(paint, axis=1), hide_index=True, use_container_width=True)
 
 
@@ -77,3 +77,4 @@ def notify():
 def saved(message):
     st.session_state["flash"] = message
     st.rerun()
+
