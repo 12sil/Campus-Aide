@@ -20,6 +20,22 @@ def uid(prefix):
     return prefix + uuid.uuid4().hex[:16]
 
 
+def add_campus_task(store, title, group_name, deadline, notes=''):
+    """课程、任务与计划一次提交，避免新增流程留下孤立档案。"""
+    title = clean(title, '任务名称', 100, True)
+    group_name = clean(group_name, '课程或活动名称', 100, True)
+    with store.transaction() as data:
+        group = next((g for g in data['customers'] if normalize(g['name']) == normalize(group_name)), None)
+        if group is None:
+            group = dict(id=uid('C'), name=group_name, contact='', phone='', address='', notes='', created_at=timestamp())
+            data['customers'].append(group)
+        task = dict(id=uid('P'), name=title, code=uid('TASK-'), unit='项', description=notes,
+                    specs='', checklist='', bom='', image_path='', created_at=timestamp())
+        data['products'].append(task)
+        return _add_order(data, dict(customer_id=group['id'], product_id=task['id'], quantity=1,
+                                    delivery_deadline=deadline, notes=notes))
+
+
 def clean(value, label, limit=3000, required=False):
     """服务层再次校验，不能只依靠网页组件的 required 限制。"""
     text = str(value or "").strip()
@@ -213,3 +229,4 @@ def import_orders(store, rows, file_hash, file_name, raw_bytes, engine, raw_text
         data["imports"].append({"id": uid("I"), "file_hash": file_hash, "file_name": Path(file_name).name,
                                 "engine": engine, "order_ids": ";".join(result), "raw_text": raw_text[:50000], "created_at": timestamp()})
         return result
+

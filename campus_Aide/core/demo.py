@@ -11,7 +11,7 @@ def reset_demo_orders(store):
     可在此修改五条样例；任务截止日始终等于必须启动日加三天。
     """
     samples = [(0, 0, 1, -1), (1, 1, 1, 0), (2, 2, 1, 1),
-               (0, 3, 1, 3), (1, 1, 1, 8)]
+               (3, 3, 1, 3), (1, 1, 1, 8)]
     today = today_china()
     with store.transaction() as data:
         # 保留档案；只重置任务分配相关表，避免残留历史记录指向旧任务分配。
@@ -29,7 +29,7 @@ def reset_demo_orders(store):
 
 
 def seed_demo(store):
-    """只在全新演示空间首次创建，后续刷新/重启都保留用户修改。"""
+    """只在全新演示空间首次创建，同一会话内刷新保留修改；新会话重新初始化。"""
     with store.transaction() as data:
         if any(data.values()):
             return
@@ -45,11 +45,11 @@ def seed_demo(store):
                     ("TASK-04", "社团策划案", "项", "完成社团招新活动策划案与预算表。", "字数：1500 字以上\n协作：宣传部", "活动流程 | 预算核对 | 指导老师审核")]
         for code, name, unit, desc, specs, bom in products:
             data["products"].append({"id": uid("P"), "code": code, "name": name, "unit": unit, "description": desc,
-                                     "specs": specs, "bom": bom, "checklist": "核对物料与数量\n外观检查无划痕\n功能测试通过\n标签与包装齐全", "image_path": "", "created_at": timestamp()})
+                                     "specs": specs, "bom": bom, "checklist": "核对任务要求\n完成初稿或练习\n复查并提交", "image_path": "", "created_at": timestamp()})
         # offset 指必须启动日相对今天；任务截止日必须再加 3 天。
         for i, offset in enumerate((0, 0, 1, 3, -2, 8, 12, -4)):
             today = today_china()
-            oid = _add_order(data, {"customer_id": data["customers"][i % 3]["id"], "product_id": data["products"][i % 3]["id"],
+            oid = _add_order(data, {"customer_id": data["customers"][i % 4]["id"], "product_id": data["products"][i % 4]["id"],
                                     "quantity": 1,
                                     "delivery_deadline": today + timedelta(days=offset + 3), "notes": "校园演示任务分配"}, source="演示数据")
             if i == 7:
@@ -57,3 +57,4 @@ def seed_demo(store):
                 row.update(status="已完成", shipped_date=(today - timedelta(days=4)).isoformat(), delivered_date=(today - timedelta(days=1)).isoformat())
                 data["history"].append({"id": uid("H"), "order_id": oid, "from_status": "未启动", "to_status": "已完成", "shipped_date": row["shipped_date"],
                                         "delivered_date": row["delivered_date"], "note": "演示历史执行记录", "created_at": timestamp()})
+

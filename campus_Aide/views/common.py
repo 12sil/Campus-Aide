@@ -13,11 +13,9 @@ def header(kicker, title, subtitle):
 
 
 def order_frame(orders):
-    return pd.DataFrame([{"任务分配编号": o["id"], "课程/项目": o["current_customer"], "具体任务": o["current_product"],
-                          "具体任务编码": o["product_code"], "任务分配月": o["order_month"], "数量": o["quantity"], "单位": o["unit"],
-                          "任务截止日期": o["delivery_deadline"], "系统计算启动日": o["ship_date"], "预警状态": o["label"],
-                          "任务分配状态": o["status"], "实际启动日期": o["shipped_date"], "实际完成日期": o["delivered_date"]}
-                         for o in orders])
+    return pd.DataFrame([{"任务": o["current_product"], "课程 / 活动": o["current_customer"],
+                          "截止日期": o["delivery_deadline"], "开始提醒": o["ship_date"],
+                          "预警状态": o["label"], "进度": o["status"]} for o in orders])
 
 
 def order_table(orders, empty="暂无任务分配记录。"):

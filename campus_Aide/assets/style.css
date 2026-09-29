@@ -1,7 +1,7 @@
 /* 校园智汇：晴朗、轻盈、圆润的校园工作台视觉。 */
 :root { --sky:#63c7f2; --mint:#7edfc4; --lavender:#b9a7f5; --ink:#3f4a5a; --muted:#7d8998; --line:#e9eef4; --cloud:rgba(73,98,126,.09); }
 .brand-banner { padding:1.25rem 1.55rem; margin-bottom:1.8rem; border-radius:20px; background:linear-gradient(120deg,#71cdf3 0%,#9edfcf 52%,#c2b5f6 100%); color:#fff; font-size:clamp(1.1rem,2vw,1.5rem); font-weight:750; letter-spacing:.02em; box-shadow:0 14px 34px rgba(93,173,208,.18); }
-#MainMenu,[data-testid="stToolbar"],[data-testid="stHeader"],footer { display:none !important; }
+#MainMenu,[data-testid="stToolbar"],footer { display:none !important; }
 .stApp { background:#fffdfa; color:var(--ink); font-family:"Microsoft YaHei","微软雅黑",Arial,sans-serif; }
 .stApp,.stApp p,.stApp label,.stApp button,.stApp input,.stApp textarea { font-family:"Microsoft YaHei","微软雅黑",Arial,sans-serif; }
 .block-container { padding-top:4rem; padding-bottom:3rem; max-width:1450px; }
@@ -23,3 +23,13 @@ h1 { font-size:2rem !important; letter-spacing:-.04em; color:#384556; } h2 { fon
 [data-testid="stButton"] button:hover,[data-testid="stFormSubmitButton"] button:hover,.stDownloadButton button:hover { transform:translateY(-1px); box-shadow:0 8px 18px rgba(81,176,211,.2); }
 [data-testid="stFormSubmitButton"] button[kind="primary"],[data-testid="stButton"] button[kind="primary"] { background:linear-gradient(100deg,#54bce9,#6fd9be); color:#fff; border:0; }
 @media(max-width:700px) { .block-container { padding-left:1rem; padding-right:1rem; } h1 { font-size:1.55rem !important; } .flow { font-size:.84rem; line-height:2; } }
+
+/* 校园生活版：轻量手帐、任务卡片与留白 */
+.brand-banner { background:linear-gradient(110deg,#e0f5ff,#edf9f2,#f1e9ff);color:#445063;box-shadow:none;border:1px solid #e4edf3; }
+[data-testid="stHeader"] { background:transparent; }
+[data-testid="stVerticalBlockBorderWrapper"] { border-radius:18px; }
+[data-testid="stVerticalBlockBorderWrapper"] > div { border-color:#e5edf3!important; }
+.stApp h1 { color:#414a5d; }
+[data-testid="stSidebar"] { background:#fbfcff; }
+[data-testid="stButton"] button:disabled { opacity:.45;transform:none;box-shadow:none; }
+@media(prefers-reduced-motion:reduce){button{transition:none!important;transform:none!important;}}

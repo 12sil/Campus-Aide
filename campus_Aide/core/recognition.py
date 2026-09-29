@@ -137,28 +137,28 @@ def parse_local(text):
     不把识别范围扩张为任意文本中的第一个日期/数字，这是任务分配识别中最危险的误匹配。
     """
     text = text.replace("：", ":")
-    customer = _label(text, r"课程/项目名称|课程/项目|购货单位|分配单位|需方")
+    customer = _label(text, r"课程/项目名称|课程/项目|课程名称|课程|活动名称|活动|项目")
     customer = re.split(r"\s{2,}|(?:负责人|电话|任务分配号)\s*:", customer)[0].strip()
-    global_date = normalized_date(_label(text, r"任务截止日期|任务截止日期|任务截止日期|任务截止日期|交货日期|交期|截止日期|任务截止日期"))
-    positions = list(re.finditer(r"(?:具体任务名称|具体任务|品名)\s*:\s*", text))
+    global_date = normalized_date(_label(text, r"任务截止日期|截止日期|截止时间|日期"))
+    positions = list(re.finditer(r"(?:具体任务名称|具体任务|任务名称|任务|作业)\s*:\s*", text))
     rows = []
     for i, pos in enumerate(positions):
         block = text[pos.start(): positions[i + 1].start() if i + 1 < len(positions) else len(text)]
-        product = _label(block, r"具体任务名称|具体任务|品名")
+        product = _label(block, r"具体任务名称|具体任务|任务名称|任务|作业")
         product = re.split(r"\s{2,}|(?:数量|具体任务编码|编码|规格)\s*:", product)[0].strip()
         quantity = _label(block, r"任务分配数量|分配数量|数量")
         qm = re.match(r"([0-9][0-9,]*(?:\.\d{1,3})?)\s*(件|套|个|台|米|千克|公斤|箱|包|kg|KG)?", quantity)
         rows.append({"customer_name": customer, "product_name": product,
                      "product_code": _label(block, r"具体任务编码|编码|料号").split("  ")[0],
-                     "quantity": qm[1].replace(",", "") if qm else "",
-                     "unit": (qm[2] if qm and qm[2] else _label(block, r"计量单位|单位")) or "件",
-                     "delivery_deadline": normalized_date(_label(block, r"任务截止日期|任务截止日期|任务截止日期|任务截止日期|交货日期|交期|截止日期|任务截止日期")) or global_date})
+                     "quantity": qm[1].replace(",", "") if qm else ("1" if not quantity else ""),
+                     "unit": (qm[2] if qm and qm[2] else _label(block, r"计量单位|单位")) or "项",
+                     "delivery_deadline": normalized_date(_label(block, r"任务截止日期|截止日期|截止时间|日期")) or global_date})
     # 支持：具体任务名称 数量 单位 任务截止日期；不猜测带价格金额等额外数字的复杂表格。
     if not rows:
         for line in text.splitlines():
             m = re.match(r"^\s*(.+?)\s{2,}([\d,]+(?:\.\d{1,3})?)\s*(件|套|个|台|米|千克|公斤|箱|包|kg)?\s{2,}(20\d{2}[^\n]+)$", line)
             if m and normalized_date(m[4]):
-                rows.append({"customer_name": customer, "product_name": m[1].strip(), "product_code": "", "quantity": m[2].replace(",", ""), "unit": m[3] or "件", "delivery_deadline": normalized_date(m[4])})
+                rows.append({"customer_name": customer, "product_name": m[1].strip(), "product_code": "", "quantity": m[2].replace(",", ""), "unit": m[3] or "项", "delivery_deadline": normalized_date(m[4])})
     if not rows:
         rows = [{"customer_name": customer, "product_name": "", "product_code": "", "quantity": "", "unit": "件", "delivery_deadline": global_date}]
     return rows
@@ -217,7 +217,7 @@ def recognize_local(raw, filename):
     if confidence < .85:
         issues.append("存在低清晰度文字，请核对识别结果后再入库。")
     # 不把多个课程/项目文件默默归入第一个课程/项目。
-    customers = re.findall(r"(?:课程/项目名称|课程/项目|购货单位|分配单位|需方)\s*[:：]\s*([^\n]+)", text)
+    customers = re.findall(r"(?:课程/项目名称|课程/项目|课程名称|课程|活动名称|活动|项目)\s*[:：]\s*([^\n]+)", text)
     if len(set(customers)) > 1:
         issues.append("文件包含多个课程/项目，请拆分文件或使用视觉大模型逐行识别。")
     return {"rows": rows, "raw_text": text, "issues": issues, "engine": "本地 OCR", "ocr_score": confidence}
