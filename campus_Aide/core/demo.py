@@ -33,16 +33,16 @@ def seed_demo(store):
     with store.transaction() as data:
         if any(data.values()):
             return
-        customers = [("互联网+创新创业比赛", "项目负责人", "", "大学生活动中心"),
+        customers = [("国创赛", "项目负责人", "", "大学生活动中心"),
                      ("高等数学（下）", "学习委员", "", "东区教学楼"),
                      ("英语四级备考计划", "自我管理", "", "图书馆"),
-                     ("学生会宣传部", "部门负责人", "", "社团活动室")]
+                     ("学生会宣传部", "部门负责人", "", "学生会办公室")]
         for name, contact, phone, address in customers:
             data["customers"].append({"id": uid("C"), "name": name, "contact": contact, "phone": phone, "address": address, "notes": "校园演示课程/项目", "created_at": timestamp()})
-        products = [("TASK-01", "互联网+比赛项目书", "项", "完成商业计划书、路演材料与答辩演练。", "组队：4-6 人\n提交：PDF + 演示文稿", "确定选题 | 指导老师意见 | 完成路演彩排"),
+        products = [("TASK-01", "国创赛项目书", "项", "完成商业计划书、路演材料与答辩演练。", "组队：4-6 人\n提交：PDF + 演示文稿", "确定选题 | 指导老师意见 | 完成路演彩排"),
                     ("TASK-02", "写高数作业", "项", "完成本周高等数学章节习题并整理错题。", "范围：第 5 章 1-30 题\n提交：纸质作业", "独立完成 | 错题订正 | 课前提交"),
                     ("TASK-03", "准备四级考试", "项", "制定听力、阅读和写作的复习安排。", "目标：四级考试\n材料：真题 3 套", "完成一套真题 | 复盘错题 | 背诵作文模板"),
-                    ("TASK-04", "社团策划案", "项", "完成社团招新活动策划案与预算表。", "字数：1500 字以上\n协作：宣传部", "活动流程 | 预算核对 | 指导老师审核")]
+                    ("TASK-04", "学生会部门活动策划案", "项", "完成学生会部门活动策划案与预算表。", "字数：1500 字以上\n协作：学生会宣传部", "活动流程 | 预算核对 | 指导老师审核")]
         for code, name, unit, desc, specs, bom in products:
             data["products"].append({"id": uid("P"), "code": code, "name": name, "unit": unit, "description": desc,
                                      "specs": specs, "bom": bom, "checklist": "核对任务要求\n完成初稿或练习\n复查并提交", "image_path": "", "created_at": timestamp()})
@@ -57,4 +57,6 @@ def seed_demo(store):
                 row.update(status="已完成", shipped_date=(today - timedelta(days=4)).isoformat(), delivered_date=(today - timedelta(days=1)).isoformat())
                 data["history"].append({"id": uid("H"), "order_id": oid, "from_status": "未启动", "to_status": "已完成", "shipped_date": row["shipped_date"],
                                         "delivered_date": row["delivered_date"], "note": "演示历史执行记录", "created_at": timestamp()})
+
+
 
